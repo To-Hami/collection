@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/', function () {
+
+    return "write route of colliction function like /combine ";
+});
 /****************************************** Collections ***********************************/
 
 
@@ -677,13 +682,412 @@ Route::get('/reject', function () {
 
 });
 
+/****************************************** shuffle  ***********************************/
+Route::get('/shuffle', function () {
+    // ال شفيل يرتب الكلكشين كل مرة بصورة عشوائية
+    $array = [1, 2, 3, 5, 2, 7, 9, 3];
+    $collection = Collect($array);
+    dd($collection->shuffle());
+
+});
+
+/****************************************** sort  ***********************************/
+Route::get('/sort', function () {
+    // ال sort يرتب الكلكشين ترتيب تصاااعدي ة
+    $array = [1, 2, 8, 5, 3, 7, 9, 4];
+    $collection = Collect($array);
+    dd($collection->sort());
+
+});
+
+/****************************************** sortBy  ***********************************/
+Route::get('/sortBy', function () {
+    // ال sortBy يرتب الكلكشين ترتيب تصاااعدي
+    $array = [
+        [
+          'name' =>'ali' ,
+          'age' => 20
+        ],
+        [
+            'name' =>'mohamed' ,
+            'age' => 30
+        ],
+        [
+            'name' =>'sami' ,
+            'age' => 40
+        ],
+    ];
+    $collection = Collect($array);
+    dd($collection->sortBy('age'));
+
+});
+
+
+/****************************************** sortByDesc  ***********************************/
+Route::get('/sortByDesc', function () {
+    // ال sortBy يرتب الكلكشين ترتيب تنازلي
+    $array = [
+        [
+            'name' =>'ali' ,
+            'age' => 20
+        ],
+        [
+            'name' =>'mohamed' ,
+            'age' => 30
+        ],
+        [
+            'name' =>'sami' ,
+            'age' => 40
+        ],
+    ];
+    $collection = Collect($array);
+    dd($collection->sortByDesc('age')->take(2));
+
+});
+
+/********************* sum *********************/
+
+Route::get('/sum', function () {
+    // ال sum تجمع الاعداد اللي داخل  الكلكشين
+    $array = [
+       1,2,3,2,3,5,4,6,8,5,6,5,10
+    ];
+    $collection = Collect($array);
+    dd($collection->sum());
+
+});
+
+
+/********************* Partition *********************/
+
+Route::get('/Partition', function () {
+    // ال Partition    تقسم  الكلكشين الي مصفوفتين واحة محققة للشرط والتانية لا
+    $array = [
+        1,2,3,2,3,5,4,6,8,5,6,5,10
+    ];
+    $collection = Collect($array);
+    dd($collection->Partition(function ($value){
+        return $value > 5 ;
+    }));
+
+});
+
+
+/********************* prepend *********************/
+
+Route::get('/prepend', function () {
+    // ال prepend    بتضيف قيمة في اول   الكلكشينانا
+    $array = [
+        1,2,3,2,3,5,4,6,8,5,6,5,10
+    ];
+    $collection = Collect($array);
+    dd($collection->prepend(0));
+
+});
+
+
+/********************* pluck *********************/
+
+Route::get('/pluck', function () {
+    // ال pluck   بتلف علي كل الامصفوفاات اللي عندك وبتجيب ليك منها  كل قيم الكي الانت اخترتوو وتختهن في مصفووفة واحدة    لا
+    $array = [
+        [
+            'name' => 'ali',
+            'age' => 20
+        ],
+
+        [
+            'name' => 'ahmed',
+            'age' => 20
+        ],
+
+        [
+            'name' => 'sami',
+            'age' => 30
+        ],
+
+        [
+            'name' => 'aymen',
+            'age' => 20
+        ],
+
+        [
+            'name' => 'rashid',
+            'age' => 30
+        ],
+    ];
+    $collection = Collect($array);
+    dd($collection->pluck('age'));
+
+});
+
+/********************* toJson *********************/
+
+Route::get('/toJson', function () {
+    // ال toJson          تحول الكوليكشن ل جيسون فايل
+    $array = [
+        [
+            'name' => 'ali',
+            'age' => 20
+        ],
+
+        [
+            'name' => 'ahmed',
+            'age' => 20
+        ],
+
+        [
+            'name' => 'sami',
+            'age' => 30
+        ],
+
+        [
+            'name' => 'aymen',
+            'age' => 20
+        ],
+
+        [
+            'name' => 'rashid',
+            'age' => 30
+        ],
+    ];
+    $collection = Collect($array);
+    return $collection->toJson();
+
+});
+
+/********************* merge *********************/
+
+Route::get('/merge', function () {
+    // ال merge    بتضيف الكوليكشن الجديد للكوليكشن  القديم     وبتعدل الفاليوو علي حسب الكي الجديد يعني تعطي الاولوية للاري الجديد
+    $array = [
+        'name' =>'tohami',
+        'age' => 20,
+    ];
+    $collection = Collect($array);
+    dd($collection->merge([
+        'name'    =>'ali',
+        'website' => 'work.com'
+    ]));
+
+    /*
+
+    Illuminate\Support\Collection {#1356 ▼ // routes\web.php:869
+          #items: array:3 [▼
+            "name" => "ali"
+            "age" => 20
+            "website" => "work.com"
+          ]
+      #escapeWhenCastingToString: false
+    }
+     */
+
+});
+
+/********************* union *********************/
+
+Route::get('/union', function () {
+    // ال merge    بتضيف الكوليكشن الجديد للكوليكشن  القديم   بدون ماتعدل علي القديم علي عكس merge
+    $array = [
+        'name' =>'tohami',
+        'age' => 20,
+    ];
+    $collection = Collect($array);
+    dd($collection->union([
+        'name'    =>'ali',
+        'website' => 'work.com'
+    ]));
+
+    /*
+
+    Illuminate\Support\Collection {#1356 ▼ // routes\web.php:869
+          #items: array:3 [▼
+            "name" => "tohami"
+            "age" => 20
+             "website" => "work.com"
+          ]
+      #escapeWhenCastingToString: false
+    }
+     */
+
+});
+
+/************************* when  *************************************/
+Route::get('/when', function () {
+    //ال when  بتفحص شرط اول حاجة لو كان true  ممكن تنفذ فنشن تانية علي الكوليكشن اما لو false  بترجع الكوليكشن زي ماهو
+        $array = [
+            'name' =>'tohami',
+            'age' => 20,
+        ];
+
+        $collection = Collect($array);
+
+        dd($collection->when($collection['age'] == 20,function($collection){
+            $collection->push(10);
+        }));
+        /*
+         Illuminate\Support\Collection {#1379 ▼ // routes\web.php:927
+              #items: array:3 [▼
+                "name" => "tohami"
+                "age" => 20
+                0 => 10
+              ]
+         */
+
+});
+
+
+/************************* whereIn *************************************/
+Route::get('/whereIn', function () {
+    //ال whereIn  بتبحث لي داخل  الكوليكشن عن ارري يعني انت تبااصي ارري للكوليكشن اللي هي قيم ل كي معيين وهو يرجع ليك كل الاريي اللي الكي فيها بيسااوي احد القيم الانت باصيتهاا دي
+    //whereNotIn هي العكس
+
+    $array = [
+        [
+        'name' =>'tohami',
+        'age' => 20,
+         ],
+        [
+            'name' =>'ali',
+            'age' => 30,
+        ],
+        [
+            'name' =>'sami',
+            'age' => 20,
+        ],
+        [
+            'name' =>'ibrahim',
+            'age' => 40,
+        ],
+    ];
+
+    $collection = Collect($array);
+
+    dd($collection->whereIn('age' ,[20,30]));
+
+
+});
 
 
 
+/************************* chunk *************************************/
+Route::get('/chunk', function () {
+    //ال chunk  البتقسم ليك الكوليكشن الواحد لمجموعه من الكوليكشن الصغيرة علي حسب العدد الانت بتحددو ي
+    //whereNotIn هي العكس
+
+    $array = [
+        [
+            'name' =>'tohami',
+            'age' => 20,
+        ],
+        [
+            'name' =>'ali',
+            'age' => 30,
+        ],
+        [
+            'name' =>'sami',
+            'age' => 20,
+        ],
+        [
+            'name' =>'ibrahim',
+            'age' => 40,
+        ],
+        [
+            'name' =>'ibrahim',
+            'age' => 40,
+        ],
+        [
+            'name' =>'ibrahim',
+            'age' => 40,
+        ],
+        [
+            'name' =>'ibrahim',
+            'age' => 40,
+        ],
+        [
+            'name' =>'ibrahim',
+            'age' => 40,
+        ],
+        [
+            'name' =>'ibrahim',
+            'age' => 40,
+        ],
+    ];
+
+    $collection = Collect($array);
+
+    dd($collection->chunk(3));
+
+
+});
 
 
 
+/************************* collapse *************************************/
+Route::get('/collapse', function () {
+    //ال collapse علي عكس ال chunk لو الكوليكشن مقسم في دااخلوو لب مجمووعةة قرووباات للاريي يعني كل مجموعه ارري في قروووب لحاالو بخلييهن كلهن في قرووب وااحد
+    //whereNotIn هي العكس
 
+    $array = [
+            [
+                    [
+                        'name' =>'tohami',
+                        'age' => 20,
+                    ],
+                    [
+                        'name' =>'ali',
+                        'age' => 30,
+                    ],
+            ],
+        [
+            [
+                'name' =>'tohami',
+                'age' => 20,
+            ],
+            [
+                'name' =>'ali',
+                'age' => 30,
+            ],
+        ],
+        [
+            [
+                'name' =>'tohami',
+                'age' => 20,
+            ],
+            [
+                'name' =>'ali',
+                'age' => 30,
+            ],
+        ],
+        [
+            [
+                'name' =>'tohami',
+                'age' => 20,
+            ],
+            [
+                'name' =>'ali',
+                'age' => 30,
+            ],
+        ],
+        [
+            [
+                'name' =>'tohami',
+                'age' => 20,
+            ],
+            [
+                'name' =>'ali',
+                'age' => 30,
+            ],
+        ],
+
+    ];
+
+    $collection = Collect($array);
+
+    dd($collection->collapse());
+
+
+});
 
 
 
