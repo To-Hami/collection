@@ -553,8 +553,8 @@ Route::get('/map', function () {
 
     // add new fileld to collection and handel it using map
     $users = User::select(['id' , 'name'])->get()->map(function ($user){
-        $user->registered = $user->created_at->fiffForHumans(now());
-        return $user;
+        return  $user->registered = $user->created_at->fiffForHumans(now());
+
     });
 
     return $users;
