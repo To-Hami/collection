@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -549,6 +550,14 @@ Route::get('/map', function () {
     4 => 10
      * return true
      */
+
+    // add new fileld to collection and handel it using map
+    $users = User::select(['id' , 'name'])->get()->map(function ($user){
+        $user->registered = $user->created_at->fiffForHumans(now());
+        return $user;
+    });
+
+    return $users;
 });
 
 /****************************************** pull ***********************************/
